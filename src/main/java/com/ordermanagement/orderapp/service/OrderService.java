@@ -30,7 +30,7 @@ public class OrderService {
      */
     public OrderResponseDTO createOrder(OrderCreatedDTO orderCreateDTO) {
         // Validate customer exists
-        Customer customer = customerService.getCustomerById(orderCreateDTO.getCustomerId());
+        Customer customer = customerService.getCustomerById(orderCreateDTO.getId());
 
         // Create new order
         Order order = new Order();
@@ -39,7 +39,7 @@ public class OrderService {
 
         // Add order items
         for (OrderItemDTO itemDTO : orderCreateDTO.getItems()) {
-            Product product = productService.getProductById(itemDTO.getProductId());
+            Product product = productService.getProductById(itemDTO.getId());
 
             // Validate product is active
             if (!product.getIsActive()) {

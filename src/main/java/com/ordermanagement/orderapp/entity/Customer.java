@@ -27,7 +27,7 @@ import java.util.List;
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long customerId;
+    private Long id;
     @NotBlank(message = "Name is required")
     @Column(nullable = false)
     private String name;
@@ -44,7 +44,7 @@ public class Customer {
 
     @Transient
     public Long getId() {
-        return this.customerId;
+        return this.id;
     }
 
     public String getName() {

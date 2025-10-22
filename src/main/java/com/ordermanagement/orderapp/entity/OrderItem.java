@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long order_itemId;
+    private Long id;
 
     @NotNull(message = "Order is required")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -62,7 +62,7 @@ public class OrderItem {
 
     @Transient
     public Long getId() {
-        return this.order_itemId;
+        return this.id;
     }
 }
 

@@ -27,7 +27,7 @@ import java.math.BigDecimal;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long  productId;
+    private Long  id;
 
     @NotBlank(message = "Name is required")
     @Column(nullable = false)
@@ -46,7 +46,7 @@ public class Product {
 
     @Transient
     public Long getId() {
-        return this.productId;
+        return this.id;
     }
 
     public String getName() {

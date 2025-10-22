@@ -14,7 +14,7 @@ import java.util.List;
 public class OrderCreatedDTO {
 
     @NotNull(message = "Customer ID is required")
-    private Long customerId;
+    private Long id;
 
     @NotEmpty(message = "Order must contain at least one item")
     private List<OrderItemDTO> Items;
