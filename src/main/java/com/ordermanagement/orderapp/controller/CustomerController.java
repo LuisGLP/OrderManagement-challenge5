@@ -41,6 +41,12 @@ public class CustomerController {
         return ResponseEntity.ok(customer);
     }
 
+    @GetMapping
+    public ResponseEntity<List<Customer>> getAllCustomers() {
+        List<Customer> customers = customerService.getAllCustomers();
+        return ResponseEntity.ok(customers);
+    }
+
     /**
      * Updates an existing customer.
      *

@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Access(AccessType.FIELD)
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,7 +39,7 @@ public class OrderItem {
     @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @NotNull(message = "Quantity is reuqired")
+    @NotNull(message = "Quantity is required")
     @Positive(message = "Quantity must be positive")
     @Column(nullable = false)
     private Integer quantity;
@@ -59,6 +60,7 @@ public class OrderItem {
 
     }
 
+    @Transient
     public Long getId() {
         return this.order_itemId;
     }

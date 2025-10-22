@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Access(AccessType.FIELD)
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,6 +44,7 @@ public class Product {
     @Column(name ="is_active", nullable = false)
     private Boolean isActive = true;
 
+    @Transient
     public Long getId() {
         return this.productId;
     }

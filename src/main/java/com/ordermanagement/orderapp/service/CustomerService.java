@@ -49,7 +49,8 @@ public class CustomerService {
         customerRepository.deleteById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Customer> getAllCustomers() {
-        return getAllCustomers();
+        return customerRepository.findAll();
     }
 }

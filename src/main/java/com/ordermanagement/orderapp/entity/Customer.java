@@ -23,6 +23,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Access(AccessType.FIELD)
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +42,7 @@ public class Customer {
     @JsonIgnore
     private List<Order> orders = new ArrayList<>();
 
+    @Transient
     public Long getId() {
         return this.customerId;
     }
