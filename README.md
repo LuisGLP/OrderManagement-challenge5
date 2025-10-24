@@ -44,22 +44,177 @@ order-management/
 - Postgres with development and production database
 - Test
 
-## Instalation
+## 1. Instalation
 ### Prerequisites
 - **Java SDK 17+**
 - **Postgres 42.7.7**
+- **Maven 3.9+**
+- **Git**
 ---
+### 2. Clone the Repository
+
+```bash
+git clone https://github.com/LuisGLP/OrderManagement-challenge5.git
+cd orderapp
+```
+### 3. Create Local Databases in PostgreSQL
+Run the following SQL script in pgAdmin or your terminal (e.g., psql):
+```sql
+-- Development Database
+CREATE DATABASE online_store_dev
+WITH
+OWNER = postgres
+ENCODING = 'UTF8'
+LC_COLLATE = 'en_US.utf8'
+LC_CTYPE = 'en_US.utf8'
+TABLESPACE = pg_default
+CONNECTION LIMIT = -1;
+
+-- Production Database
+CREATE DATABASE online_store_prod
+WITH
+OWNER = postgres
+ENCODING = 'UTF8'
+LC_COLLATE = 'en_US.utf8'
+LC_CTYPE = 'en_US.utf8'
+TABLESPACE = pg_default
+CONNECTION LIMIT = -1;
+```
+## 5. Then, connect to online_store_dev and run the following to create tables and insert sample data:
+
+The full SQL script for tables, indexes, and sample data is included in the root of this repository).
+
+## 6.Configure the Database Connection
+In the file ```src/main/resources/application-dev.yml```
+```yaml
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/online_store_dev
+    username: postgres
+    password: yourpassword
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+server:
+  port: 8081
+```
+## 7. Build and Run the Project
+Run the following command from the root directory:
+```bash
+mvn spring-boot:run
+```
+Or package it and run:
+```bash
+mvn clean package
+java -jar target/orderapp-0.0.1-SNAPSHOT.jar
+```
+## 8. Access the Application
+Swagger UI: http://localhost:8081/swagger-ui/index.html
+
+API Root: http://localhost:8081/api
+
 ## CRUD Endpoints
 
-| Method     | Endpoint         | Description     |
-|------------|------------------|-----------------|
-| **GET**    | `/api/users/`    | Get all users   |
-| **GET**    | `/api/users/:id` | Get users       |
-| **POST**   | `/api/users`     | Create new User |
-| **PUT**    | `/api/users/:id` | Update user     |
-| **DELETE** | `/api/users/:id` | Delete user     |         
-|            |                  |                 |
+### Complete API Endpoints Reference
 
+####  Customers API
+
+| Method | Endpoint | Parameters | Request Body | Response | Description |
+|--------|----------|------------|--------------|-------|-------------|
+| POST | `/api/customers` | - | Customer JSON | Customer (201) | Create a new customer |
+| GET | `/api/customers` | - | - | Customer[] (200) | Get all customers |
+| GET | `/api/customers/{id}` | `id` (path) | - | Customer (200) | Get customer by ID |
+| PUT | `/api/customers/{id}` | `id` (path) | Customer JSON | Customer (200) | Update customer |
+| DELETE | `/api/customers/{id}` | `id` (path) | - | (204) | Delete customer |
+
+###  Products API
+
+| Method | Endpoint | Parameters | Request Body | Response | Description |
+|--------|----------|------------|--------------|--------|-------------|
+| POST | `/api/products` | - | Product JSON | Product (201) | Create a new product |
+| GET | `/api/products` | `activeOnly` (query, optional) | - | Product[] (200) | Get all or active products |
+| GET | `/api/products/{id}` | `id` (path) | - | Product (200) | Get product by ID |
+| GET | `/api/products/search` | `name` (query) | - | Product[] (200) | Search products by name |
+| PUT | `/api/products/{id}` | `id` (path) | Product JSON | Product (200) | Update product |
+| DELETE | `/api/products/{id}` | `id` (path) | - | (204) | Delete product |
+
+### Orders API (Main Resource)
+
+| Method | Endpoint | Parameters | Request Body | Response | Description |
+|--------|----------|------------|--------------|--------|-------------|
+| POST | `/api/orders` | - | OrderCreateDTO | OrderResponseDTO (201) | Create a new order |
+| GET | `/api/orders` | - | - | OrderResponseDTO[] (200) | Get all orders |
+| GET | `/api/orders/{id}` | `id` (path) | - | OrderResponseDTO (200) | Get order by ID |
+| GET | `/api/orders/customer/{customerId}` | `customerId` (path) | - | OrderResponseDTO[] (200) | Get orders by customer |
+| PATCH | `/api/orders/{id}/status` | `id` (path)<br>`status` (query) | - | OrderResponseDTO (200) | Update order status |
+| DELETE | `/api/orders/{id}` | `id` (path) | - |  (204) | Delete order |
+
+### Data Models
+
+#### Customer
+```typescript
+{
+  "id": number,
+  "name": string,
+  "phone": number,
+  "email": string
+}
+```
+
+#### Product
+```typescript
+{
+  "id": number,
+  "name": string,
+  "description": string,
+  "price": number,
+  "isActive": boolean
+}
+```
+
+#### OrderCreateDTO
+```typescript
+{
+  "customerId": number,
+  "items": [
+    {
+      "productId": number,
+      "quantity": number
+    }
+  ]
+}
+```
+
+#### OrderResponseDTO
+```typescript
+{
+  "id": number,
+  "customerId": number,
+  "customerName": string,
+  "customerEmail": string,
+  "items": [
+    {
+      "id": number,
+      "productId": number,
+      "productName": string,
+      "quantity": number,
+      "unitPrice": number,
+      "subtotal": number
+    }
+  ],
+  "totalAmount": number,
+  "status": string,
+  "createdAt": string,
+  "updatedAt": string
+}
+```
 ---
 ## User Stories
 | **ID**   | **User Story**                                                                                                                                              | **Priority** | **Acceptance Criteria**                                                                                                                          |
