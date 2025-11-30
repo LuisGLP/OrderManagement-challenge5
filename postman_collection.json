@@ -1,0 +1,563 @@
+{
+  "info": {
+    "name": "Online Store API",
+    "description": "Complete API collection for testing the Online Store Order Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "version": "1.0.0"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080/api",
+      "type": "string"
+    },
+    {
+      "key": "customerId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "productId",
+      "value": "1",
+      "type": "string"
+    },
+    {
+      "key": "orderId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Customers",
+      "item": [
+        {
+          "name": "Create Customer",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('customerId', jsonData.id);",
+                  "    pm.test('Customer created successfully', function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"phone\": 3312345678,\n  \"email\": \"juan.perez@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers"]
+            },
+            "description": "Creates a new customer in the system. Email must be unique."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Juan Pérez\",\n  \"phone\": 3312345678,\n  \"email\": \"juan.perez@example.com\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/customers",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["customers"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "body": "{\n  \"id\": 1,\n  \"name\": \"Juan Pérez\",\n  \"phone\": 3312345678,\n  \"email\": \"juan.perez@example.com\",\n  \"orders\": []\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Customers",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers"]
+            },
+            "description": "Retrieves all customers in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Customer by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", "{{customerId}}"]
+            },
+            "description": "Retrieves a specific customer by their ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Customer",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Juan Pérez Actualizado\",\n  \"phone\": 3398765432,\n  \"email\": \"juan.perez.updated@example.com\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", "{{customerId}}"]
+            },
+            "description": "Updates an existing customer's information."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Customer",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/customers/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["customers", "{{customerId}}"]
+            },
+            "description": "Deletes a customer from the system."
+          },
+          "response": []
+        }
+      ],
+      "description": "Customer management endpoints"
+    },
+    {
+      "name": "Products",
+      "item": [
+        {
+          "name": "Create Product",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('productId', jsonData.id);",
+                  "    pm.test('Product created successfully', function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop Dell XPS 15\",\n  \"description\": \"Laptop de alto rendimiento con procesador Intel Core i7\",\n  \"price\": 25999.99,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "description": "Creates a new product in the catalog."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"Laptop Dell XPS 15\",\n  \"description\": \"Laptop de alto rendimiento\",\n  \"price\": 25999.99,\n  \"isActive\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["products"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "body": "{\n  \"id\": 1,\n  \"name\": \"Laptop Dell XPS 15\",\n  \"description\": \"Laptop de alto rendimiento con procesador Intel Core i7\",\n  \"price\": 25999.99,\n  \"isActive\": true\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "description": "Retrieves all products in the catalog."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Active Products Only",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products?activeOnly=true",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "activeOnly",
+                  "value": "true"
+                }
+              ]
+            },
+            "description": "Retrieves only active products."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Product by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Retrieves a specific product by its ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Search Products by Name",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/search?name=Laptop",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "search"],
+              "query": [
+                {
+                  "key": "name",
+                  "value": "Laptop"
+                }
+              ]
+            },
+            "description": "Searches for products containing the specified name."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Laptop Dell XPS 15 (Actualizado)\",\n  \"description\": \"Laptop de alto rendimiento con procesador Intel Core i7, 16GB RAM\",\n  \"price\": 24999.99,\n  \"isActive\": true\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Updates an existing product's information."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "description": "Deletes a product from the catalog."
+          },
+          "response": []
+        }
+      ],
+      "description": "Product management endpoints"
+    },
+    {
+      "name": "Orders",
+      "item": [
+        {
+          "name": "Create Order",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 201) {",
+                  "    var jsonData = pm.response.json();",
+                  "    pm.collectionVariables.set('orderId', jsonData.id);",
+                  "    pm.test('Order created successfully', function () {",
+                  "        pm.response.to.have.status(201);",
+                  "    });",
+                  "}"
+                ],
+                "type": "text/javascript"
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"customerId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 2\n    },\n    {\n      \"productId\": 2,\n      \"quantity\": 1\n    }\n  ]\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Creates a new order with the specified items for a customer. The total amount is calculated automatically."
+          },
+          "response": [
+            {
+              "name": "Success Response",
+              "originalRequest": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"customerId\": 1,\n  \"items\": [\n    {\n      \"productId\": 1,\n      \"quantity\": 2\n    }\n  ]\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                }
+              },
+              "status": "Created",
+              "code": 201,
+              "_postman_previewlanguage": "json",
+              "header": [],
+              "body": "{\n  \"id\": 1,\n  \"customerId\": 1,\n  \"customerName\": \"Juan Pérez\",\n  \"customerEmail\": \"juan.perez@example.com\",\n  \"items\": [\n    {\n      \"id\": 1,\n      \"productId\": 1,\n      \"productName\": \"Laptop Dell XPS 15\",\n      \"quantity\": 2,\n      \"unitPrice\": 25999.99,\n      \"subtotal\": 51999.98\n    }\n  ],\n  \"totalAmount\": 51999.98,\n  \"status\": \"PENDING\",\n  \"createdAt\": \"2025-10-18T10:30:00\",\n  \"updatedAt\": \"2025-10-18T10:30:00\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders"]
+            },
+            "description": "Retrieves all orders in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Order by ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}"]
+            },
+            "description": "Retrieves a specific order by its ID with all details including items."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Orders by Customer",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/customer/{{customerId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "customer", "{{customerId}}"]
+            },
+            "description": "Retrieves all orders placed by a specific customer."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status to CONFIRMED",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/status?status=CONFIRMED",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CONFIRMED",
+                  "description": "Valid values: PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED"
+                }
+              ]
+            },
+            "description": "Updates the status of an order. Valid statuses: PENDING, CONFIRMED, PROCESSING, SHIPPED, DELIVERED, CANCELLED"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status to PROCESSING",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/status?status=PROCESSING",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "PROCESSING"
+                }
+              ]
+            },
+            "description": "Changes order status to PROCESSING"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status to SHIPPED",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/status?status=SHIPPED",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "SHIPPED"
+                }
+              ]
+            },
+            "description": "Changes order status to SHIPPED"
+          },
+          "response": []
+        },
+        {
+          "name": "Update Order Status to DELIVERED",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/status?status=DELIVERED",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "DELIVERED"
+                }
+              ]
+            },
+            "description": "Changes order status to DELIVERED"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Order",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}/status?status=CANCELLED",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}", "status"],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "CANCELLED"
+                }
+              ]
+            },
+            "description": "Cancels an order by changing its status to CANCELLED"
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Order",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/orders/{{orderId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["orders", "{{orderId}}"]
+            },
+            "description": "Deletes an order. Only orders with PENDING or CANCELLED status can be deleted."
+          },
+          "response": []
+        }
+      ],
+      "description": "Order management endpoints - Main resource for the online store"
+    }
+  ]
+}
