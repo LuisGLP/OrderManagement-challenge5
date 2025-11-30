@@ -1,15 +1,16 @@
 package com.ordermanagement.orderapp.config;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
 import io.swagger.v3.oas.models.servers.Server;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
-import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
@@ -40,8 +41,11 @@ public class SwaggerConfig {
                                 .url("http://localhost:8080")
                                 .description("Development Server"),
                         new Server()
-                                .url("http://localhost:8081")
-                                .description("Production Server")
+                                .url("https://plumaverde.site")
+                                .description("Production Server"),
+                        new Server()
+                                .url("https://api.plumaverde.site")
+                                .description("Production API Server")
                 ));
     }
 }
